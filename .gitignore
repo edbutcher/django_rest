@@ -2,7 +2,7 @@
 .idea/
 *__init__.py
 *.sqlite3
-migrations
+
 init.py
 *.pyc
 *.pyo
