@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'gamesapi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'test_database',
         'USER': 'test1',
         'PASSWORD': 'abc@123',
@@ -128,3 +128,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':
+        'games.pagination.LimitOffsetPaginationWithMaxLimit',
+    'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
