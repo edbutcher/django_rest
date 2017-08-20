@@ -12,10 +12,16 @@ class GameCategory(models.Model):
 
 
 class Game(models.Model):
-    owner = models.ForeignKey('auth.User', related_name='games', on_delete=models.CASCADE)
+    owner = models.ForeignKey(
+        'auth.User',
+        related_name='games',
+        on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=200, unique=True)
-    game_category = models.ForeignKey(GameCategory, related_name='games', on_delete=models.CASCADE)
+    game_category = models.ForeignKey(
+        GameCategory,
+        related_name='games',
+        on_delete=models.CASCADE)
     release_date = models.DateTimeField()
     played = models.BooleanField(default=False)
 
@@ -34,8 +40,12 @@ class Player(models.Model):
         (FEMALE, 'Female'),
     )
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=50, blank=False, default=True, unique=True)
-    gender = models.CharField(max_length=2, choices=GENDER_CHOICES, default=MALE)
+    name = models.CharField(max_length=50, blank=False, default='', unique=True)
+    gender = models.CharField(
+        max_length=2,
+        choices=GENDER_CHOICES,
+        default=MALE,
+    )
 
     class Meta:
         ordering = ('name',)
@@ -45,10 +55,16 @@ class Player(models.Model):
 
 
 class PlayerScore(models.Model):
-    player = models.ForeignKey(Player, related_name='score', on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    player = models.ForeignKey(
+        Player,
+        related_name='scores',
+        on_delete=models.CASCADE)
+    game = models.ForeignKey(
+        Game,
+        on_delete=models.CASCADE)
     score = models.IntegerField()
     score_date = models.DateTimeField()
 
     class Meta:
+        # Order by score descending
         ordering = ('-score',)

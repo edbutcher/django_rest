@@ -1,6 +1,9 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from games.models import GameCategory, Game, Player, PlayerScore
+from games.models import GameCategory
+from games.models import Game
+from games.models import Player
+from games.models import PlayerScore
+from django.contrib.auth.models import User
 
 
 class UserGameSerializer(serializers.HyperlinkedModelSerializer):
@@ -39,7 +42,9 @@ class GameCategorySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
+    # We just want to display the owner username (read-only)
     owner = serializers.ReadOnlyField(source='owner.username')
+    # We want to display the game cagory's name instead of the id
     game_category = serializers.SlugRelatedField(queryset=GameCategory.objects.all(), slug_field='name')
 
     class Meta:
@@ -55,8 +60,9 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ScoreSerializer(serializers.HyperlinkedModelSerializer):
+    # We want to display all the details for the game
     game = GameSerializer()
-
+    # We don't include the player because it will be nested in the player
     class Meta:
         model = PlayerScore
         fields = (
@@ -89,6 +95,7 @@ class PlayerSerializer(serializers.HyperlinkedModelSerializer):
 
 class PlayerScoreSerializer(serializers.ModelSerializer):
     player = serializers.SlugRelatedField(queryset=Player.objects.all(), slug_field='name')
+    # We want to display the game's name instead of the id
     game = serializers.SlugRelatedField(queryset=Game.objects.all(), slug_field='name')
 
     class Meta:
