@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'games.apps.GamesConfig',
+    'crispy_forms',
     'django_filters',
-
+    'django_nose'
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,8 @@ WSGI_APPLICATION = 'gamesapi.wsgi.application'
 
 DATABASES = {
     'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'test_database',
         'USER': 'test1',
@@ -146,3 +149,12 @@ REST_FRAMEWORK = {
         'game-categories': '30/hour',
     }
 }
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-erase',
+    '--cover-inclusive',
+    '--cover-package=games',
+]
